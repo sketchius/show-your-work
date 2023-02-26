@@ -16,7 +16,8 @@ public class Tokenizer {
             switch (character) {
                 case '(':
                 case ')':
-                    tokens.add(new Token(Token.NUMBER,buffer));
+                    if (!buffer.equals(""))
+                        tokens.add(new Token(Token.NUMBER,buffer));
                     tokens.add(new Token(Token.PARENTHESIS,character+""));
                     buffer = "";
                     hasDecimal = false;
@@ -25,7 +26,8 @@ public class Tokenizer {
                 case '-':
                 case '/':
                 case '*':
-                    tokens.add(new Token(Token.NUMBER,buffer));
+                    if (!buffer.equals(""))
+                       tokens.add(new Token(Token.NUMBER,buffer));
                     tokens.add(new Token(Token.OPERATOR,character+""));
                     buffer = "";
                     hasDecimal = false;
@@ -45,6 +47,8 @@ public class Tokenizer {
 
             position++;
         }
+        if (!buffer.equals(""))
+            tokens.add(new Token(Token.NUMBER,buffer));
 
         return tokens;
     }
