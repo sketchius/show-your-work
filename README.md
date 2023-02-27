@@ -49,9 +49,10 @@ The processing generated a tree where the base of the tree represents the final 
 In order to execute the expression, it needs to do run a step method:
 
 Starting with the first EXPRESSION Token. Remember, an EXPRESSION Token contains three Token variables: a left operand, an operator, and a right operand.
-1) Check to see if the left operand is an EXPRESSION Token, if so, it recursively runs the step method on that Token.
-2) Otherwise, perform the same check on the right operand.
-3) If neither the left or the right operands are EXPRESSION tokens, that means it has reached bedrock arithmetic expression
+1) If both operands are EXPRESSION Tokens, it runs getDepth() on both of them, which returns a the number based on how many descendant Tokens are connected to that Token.
+2) Otherwise if only the left operand is an EXPRESSION Token, if so, it recursively runs the step method on that Token.
+3) It does the same if only the right operand is an EXPRESSION Token.
+4) If neither the left or the right operands are EXPRESSION tokens, that means it has reached bedrock arithmetic expression
 - It can go ahead and calculate the result based on the operator type (+,-,*,/)
 - It clears all of the token variables
 - It sets the Token type to NUMBER and stores the result.
