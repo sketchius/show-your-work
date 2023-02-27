@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Tokenizer {
-    public static List<Token> parse(String input) {
+    public static List<Token> parse(String rawInput) {
+        String input = rawInput.replaceAll(" ","");
         int position = 0;
         boolean hasDecimal = false;
         List<Token> tokens = new ArrayList<>();
@@ -44,9 +45,9 @@ public class Tokenizer {
                     throw new IllegalArgumentException("Invalid input:  " + character);
             }
 
-
             position++;
         }
+
         if (!buffer.equals(""))
             tokens.add(new Token(Token.NUMBER,buffer));
 

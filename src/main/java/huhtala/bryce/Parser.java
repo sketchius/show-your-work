@@ -40,9 +40,9 @@ public class Parser {
             for (int i = 0; i < tokens.size(); i++) {
 
                 Token token = tokens.get(i);
-                if (token.type == Token.OPERATOR && token.getScore() > highestPriorityOperatorScore) {
+                if (token.type == Token.OPERATOR && token.getScore()-i > highestPriorityOperatorScore) {
                     highestPriorityOperatorIndex = i;
-                    highestPriorityOperatorScore = token.getScore();
+                    highestPriorityOperatorScore = token.getScore()-i;
                 }
             }
 
