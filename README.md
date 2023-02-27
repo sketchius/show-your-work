@@ -1,6 +1,10 @@
 # show-your-work
 A Java program that evaluates mathematical expressions, printing each step.
 
+Click here to try it on Repl.it:
+
+[![Run on Repl.it](https://img.shields.io/badge/Replit-DD1200?style=for-the-badge&logo=Replit&logoColor=white)](https://replit.com/@sketchius/show-your-work?v=1)
+
 ## How it works
 
 ### Processing the Expression
