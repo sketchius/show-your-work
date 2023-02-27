@@ -33,7 +33,7 @@ public class Token {
             if (showParenthesis) return 999999;
             else return 1;
         }
-        return children[0].getDepth() + children[2].getDepth();
+        return children[0].getDepth() + children[2].getDepth() + (showParenthesis ? 9999 : 0);
     }
 
     public boolean isShowParenthesis() {
