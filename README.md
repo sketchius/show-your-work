@@ -1,5 +1,5 @@
 # show-your-work
-A Java program that evaluates mathematical expressions, printing each step
+A Java program that evaluates mathematical expressions, printing each step.
 
 ## How it works
 
@@ -12,16 +12,41 @@ Next the string is tokenized, breaking it into individual parts. This is stored 
 `10`, `*`, `(`, `6`, `-`, `(`, `12`, `/`, `4`, `)`, `)`
 
 The array is given to the parser. The parser processes the tokens into a tree structure.
-1) It analyzes the parenthesis and looks at each operator, keeping track of the 'parenthetical level' for each operator. In our example, the multiply operator has a level of 0, the minus operator has a level of 1, and the divide operator has a level of 2. These numbers correspond to how many sets of parentheses are wrapped around each operator.
+1) It analyzes the parenthesis and looks at each operator, keeping track of the 'parenthetical level' for each operator. In our example, the multiply operator has a level of 0, the minus operator has a level of 1, and the divide operator has a level of 2. These numbers correspond to how many sets of parentheses are wrapped around each operator
+
+```
+10 * (6 - (12 / 4))
+   ^    ^     ^     
+   0    1     2    
+```
+   
 2) The program enters a loop.
-- It checks each operator and generates a score based on the parenthetical level and the type of operator (`*` and `/` score higher than `+` and `-`).
-- The operator with the highest score, along with the operands to the left and right are removed from the Token list and replaced by a new Token of type EXPRESSION, which is a special type of Token that can hold three other Tokens. If there were parenthesis wrapping these three Tokens, those are removed as well, and the new Token is flagged as having parenthesis.
+- It checks each operator and generates a score based on the parenthetical level and the type of operator (`*` and `/` score higher than `+` and `-`). This is calculated by parentheticalLevel * 10 + operatorScore, where + and - are worth 1, * and / are worth 2. Our example is scored like this:
+```
+10 * (6 - (12 / 4))
+   ^    ^     ^     
+   2   11    22    
+```
+
+- The operator with the highest score, along with the operands to the left and right are removed from the Token list and replaced by a new Token of type EXPRESSION, which is a special type of Token that can hold three other Tokens. If there were parenthesis wrapping these three Tokens, those are removed as well, and the new Token is flagged as having parenthesis. In our example, the divide operator has the highest score, so afterwards our tokens look like this:
+`10`, `*`, `(`, `6`, `-`, `<EXPRESSION>`, `)`
+Where expression is a token that contains the Tokens `12`, `/`, `4`, and is flagged as having parenthesis.
 - The loop continues until no operators are found (meaning we are left with a single EXPRESSION Token)
 3) This final Token is returned.
 
 ### Executing the Expression
 
-The processing generated a tree where the base of the tree represents the final operation to be done. In order to execute the expression, it needs to do run a step method:
+The processing generated a tree where the base of the tree represents the final operation to be done. If we label the EXPRESSION Tokens in the tree with letters, it would look something like this:
+```
+   C
+   ^
+10 * B
+      ^
+   B: 6 - A
+          ^
+      A: 12 / 4
+```
+In order to execute the expression, it needs to do run a step method:
 
 Starting with the first EXPRESSION Token. Remember, an EXPRESSION Token contains three Token variables: a left operand, an operator, and a right operand.
 1) Check to see if the left operand is an EXPRESSION Token, if so, it recursively runs the step method on that Token.
