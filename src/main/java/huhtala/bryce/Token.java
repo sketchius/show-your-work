@@ -12,7 +12,7 @@ public class Token {
     public static final int OPERATOR = 0;
     public static final int NUMBER = 1;
     public static final int PARENTHESIS = 2;
-    public static final int EXPRESSION = 3;
+    public static final int OPERATION = 3;
 
     public Token(int type, String data) {
         this.type = type;
@@ -21,7 +21,7 @@ public class Token {
     }
 
     public Token(Token[] children, boolean showParenthesis) {
-        this.type = Token.EXPRESSION;
+        this.type = Token.OPERATION;
         this.data = "";
         this.children = children;
         parentheticalLevel = 0;
@@ -29,7 +29,7 @@ public class Token {
     }
 
     public int getDepth() {
-        if (type != Token.EXPRESSION) {
+        if (type != Token.OPERATION) {
             if (showParenthesis) return 999999;
             else return 1;
         }
@@ -67,17 +67,17 @@ public class Token {
     }
 
     public void step() {
-        if (type == Token.EXPRESSION) {
-            if (children[0].type == Token.EXPRESSION && children[2].type == Token.EXPRESSION) {
+        if (type == Token.OPERATION) {
+            if (children[0].type == Token.OPERATION && children[2].type == Token.OPERATION) {
                 int leftD = children[0].getDepth();
                 int rightD = children[2].getDepth();
                 if (children[0].getDepth() >= children[2].getDepth())
                     stepLeft();
                 else
                     stepRight();
-            } else if (children[0].type == Token.EXPRESSION)
+            } else if (children[0].type == Token.OPERATION)
                 stepLeft();
-            else if (children[2].type == Token.EXPRESSION)
+            else if (children[2].type == Token.OPERATION)
                 stepRight();
             else {
                 if (children[0].type == Token.NUMBER && children[0].showParenthesis)
@@ -132,7 +132,7 @@ public class Token {
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
-        if (type == Token.EXPRESSION) {
+        if (type == Token.OPERATION) {
             if (showParenthesis) stringBuilder.append("(");
             for (int i = 0; i < children.length; i++) {
                 stringBuilder.append(children[i].toString());
