@@ -1,6 +1,5 @@
 package huhtala.bryce;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Parser {
@@ -32,6 +31,9 @@ public class Parser {
                     break;
             }
         }
+        if (parentheticalLevel > 0)
+            throw new IllegalArgumentException("Found '(' without matching ')'.");
+
 
         while (true) {
             int highestPriorityOperatorIndex = -1;
@@ -56,6 +58,8 @@ public class Parser {
                 Token leftOperand = tokens.get(i-1);
                 Token operator = tokens.get(i);
                 Token rightOperand = tokens.get(i+1);
+                if (leftOperand.type == Token.OPERATOR || rightOperand.type == Token.OPERATOR)
+                    throw new IllegalArgumentException("Double operators.");
                 Token expression = new Token(new Token[] {leftOperand, operator, rightOperand}, showParenthesis);
                 tokens.remove(i+1);
                 tokens.remove(i-1);

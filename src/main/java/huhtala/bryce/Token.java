@@ -36,18 +36,6 @@ public class Token {
         return children[0].getDepth() + children[2].getDepth() + (showParenthesis ? 9999 : 0);
     }
 
-    public boolean isShowParenthesis() {
-        return showParenthesis;
-    }
-
-    public void setShowParenthesis(boolean showParenthesis) {
-        this.showParenthesis = showParenthesis;
-    }
-
-    public int getParentheticalLevel() {
-        return parentheticalLevel;
-    }
-
     public void setParentheticalLevel(int parentheticalLevel) {
         this.parentheticalLevel = parentheticalLevel;
     }
@@ -69,8 +57,6 @@ public class Token {
     public void step() {
         if (type == Token.OPERATION) {
             if (children[0].type == Token.OPERATION && children[2].type == Token.OPERATION) {
-                int leftD = children[0].getDepth();
-                int rightD = children[2].getDepth();
                 if (children[0].getDepth() >= children[2].getDepth())
                     stepLeft();
                 else
