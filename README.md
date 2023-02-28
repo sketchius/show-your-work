@@ -50,15 +50,15 @@ The array is given to the parser. The parser processes the tokens into a tree st
    2   11    22    
 ```
 
-- The operator with the highest score, along with the operands to the left and right are removed from the Token list and replaced by a new Token of type EXPRESSION, which is a special type of Token that can hold three other Tokens. If there were parenthesis wrapping these three Tokens, those are removed as well, and the new Token is flagged as having parenthesis. In our example, the divide operator has the highest score, so afterwards our tokens look like this:
-`10`, `*`, `(`, `6`, `-`, `<EXPRESSION>`, `)`
-Where expression is a token that contains the Tokens `12`, `/`, `4`, and is flagged as having parenthesis.
-- The loop continues until no operators are found (meaning we are left with a single EXPRESSION Token)
+- The operator with the highest score, along with the operands to the left and right are removed from the Token list and replaced by a new Token of type operation, which is a special type of Token that can hold three other Tokens. If there were parenthesis wrapping these three Tokens, those are removed as well, and the new Token is flagged as having parenthesis. In our example, the divide operator has the highest score, so afterwards our tokens look like this:
+`10`, `*`, `(`, `6`, `-`, `<operation>`, `)`
+Where operation is a token that contains the Tokens `12`, `/`, `4`, and is flagged as having parenthesis.
+- The loop continues until no operators are found (meaning we are left with a single operation Token)
 3) This final Token is returned.
 
 ### Executing the Expression
 
-The processing generated a tree where the base of the tree represents the final operation to be done. If we label the EXPRESSION Tokens in the tree with letters, it would look something like this:
+The processing generated a tree where the base of the tree represents the final operation to be done. If we label the operation Tokens in the tree with letters, it would look something like this:
 ```
    C
    ^
@@ -70,21 +70,21 @@ The processing generated a tree where the base of the tree represents the final 
 ```
 In order to execute the expression, it needs to do run a step method:
 
-Starting with the first EXPRESSION Token. Remember, an EXPRESSION Token contains three Token variables: a left operand, an operator, and a right operand.
-1) If both operands are EXPRESSION Tokens, it runs getDepth() on both of them, which returns a the number based on how many descendant Tokens are connected to that Token.
-2) Otherwise if only the left operand is an EXPRESSION Token, if so, it recursively runs the step method on that Token.
-3) It does the same if only the right operand is an EXPRESSION Token.
-4) If neither the left or the right operands are EXPRESSION tokens, that means it has reached bedrock arithmetic expression
+Starting with the first operation Token. Remember, an operation Token contains three Token variables: a left operand, an operator, and a right operand.
+1) If both operands are operation Tokens, it runs getDepth() on both of them, which returns a the number based on how many descendant Tokens are connected to that Token.
+2) Otherwise if only the left operand is an operation Token, if so, it recursively runs the step method on that Token.
+3) It does the same if only the right operand is an operation Token.
+4) If neither the left or the right operands are operation tokens, that means it has reached bedrock arithmetic expression
 - It can go ahead and calculate the result based on the operator type (+,-,*,/)
 - It clears all of the token variables
-- It sets the Token type to NUMBER and stores the result.
+- It sets the Token type to number and stores the result.
 
 Each time this step method is run, a single operation is performed. During the next run of the step method, the results of the first can be used.
 
 ### Printing the Steps
 
 Between each step, the program prints the state of the expression so that the user can see all of the steps involved. This is accomplished by recursively calling the Token object's toString() method:
-1) If the Token is of type EXPRESSION, the method will build a string made up of three substrings, which are found by calling the toString() on the left operand, operator, and right operand Tokens. The method also will check to see if the Token's parenthesis flag is true. If so it will wrap this in parenthesis. This string is returned.
-2) Otherwise, the Token is a NUMBER or OPERATOR, so the method will simply return it as a string, wrapped in parenthesis if the flag is true.
+1) If the Token is of type operation, the method will build a string made up of three substrings, which are found by calling the toString() on the left operand, operator, and right operand Tokens. The method also will check to see if the Token's parenthesis flag is true. If so it will wrap this in parenthesis. This string is returned.
+2) Otherwise, the Token is a number or operator, so the method will simply return it as a string, wrapped in parenthesis if the flag is true.
 
 After recursion, a fully formed string is returned from the original toString() call, which can be printed.
