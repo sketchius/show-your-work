@@ -5,6 +5,24 @@ Click here to try it on Repl.it:
 
 [![Run on Repl.it](https://img.shields.io/badge/Replit-DD1200?style=for-the-badge&logo=Replit&logoColor=white)](https://replit.com/@sketchius/show-your-work?v=1)
 
+## Example
+
+```
+Enter a mathematical expression: (21 / (5 - 2)) + 39 - (40 / (25 - 15))
+
+(21 / (5 - 2)) + 39 - (40 / (25 - 15))
+  (21 / (3)) + 39 - (40 / (25 - 15))
+   (21 / 3) + 39 - (40 / (25 - 15))
+     (21 / 3) + 39 - (40 / (10))
+      (21 / 3) + 39 - (40 / 10)
+         (7) + 39 - (40 / 10)
+          7 + 39 - (40 / 10)
+             7 + 39 - (4)
+              7 + 39 - 4
+                46 - 4
+                  42
+```
+
 ## How it works
 
 ### Processing the Expression
